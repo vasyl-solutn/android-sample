@@ -1,5 +1,5 @@
 // File: app/src/main/java/com/example/myapp1434/ui/MainActivity.kt
-package com.example.myapp1434.ui
+package com.example.myapp1434
 
 import android.os.Bundle
 import android.widget.Button
@@ -9,7 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapp1434.R
+import com.example.myapp1434.ui.UserAdapter
+import com.example.myapp1434.ui.UserViewModel
 
 class MainActivity : AppCompatActivity() {
 
