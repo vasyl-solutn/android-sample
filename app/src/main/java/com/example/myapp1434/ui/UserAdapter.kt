@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapp1434.R
 import com.example.myapp1434.model.User
 
-class UserAdapter(private val users: List<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val users: List<User>, private val clickListener: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
@@ -25,6 +25,7 @@ class UserAdapter(private val users: List<User>) : RecyclerView.Adapter<UserAdap
         val user = users[position]
         holder.nameTextView.text = user.name
         holder.emailTextView.text = user.email
+        holder.itemView.setOnClickListener { clickListener(user) }
     }
 
     override fun getItemCount(): Int {

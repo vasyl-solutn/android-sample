@@ -1,7 +1,8 @@
+<!-- File: app/src/main/res/values/strings.xml -->
 <resources>
     <string name="app_name">MyApp1434 Playing</string>
     <string name="user_data">User Data from string</string>
-    <string name="fetch_user">Fetch User</string>
+    <string name="fetch_users">Fetch Users</string>
     <string name="email">Email:</string>
     <string name="name">Name:</string>
 </resources>

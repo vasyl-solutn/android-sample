@@ -1,7 +1,8 @@
+<!-- File: app/src/main/res/values/styles.xml -->
 <resources>
 
     <!-- Base application theme -->
-    <style name="Theme.MyRetro" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.MyApp1434" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>

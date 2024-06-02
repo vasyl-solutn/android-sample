@@ -1,6 +1,7 @@
-// File: app/src/main/java/com/example/myapp1434/ui/MainActivity.kt
+// File: app/src/main/java/com/example/myapp1434/MainActivity.kt
 package com.example.myapp1434
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ProgressBar
@@ -27,7 +28,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.users.observe(this) { users ->
-            recyclerView.adapter = UserAdapter(users)
+            recyclerView.adapter = UserAdapter(users) { user ->
+                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                    putExtra("name", user.name)
+                    putExtra("email", user.email)
+                }
+                startActivity(intent)
+            }
             progressBar.visibility = ProgressBar.GONE
         }
 
