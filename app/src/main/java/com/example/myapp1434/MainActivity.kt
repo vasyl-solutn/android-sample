@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
             recyclerView.adapter = UserAdapter(users) { user ->
                 val intent = Intent(this, UserDetailActivity::class.java).apply {
                     putExtra("name", user.name)
+                    putExtra("username", user.username)
                     putExtra("email", user.email)
+                    putExtra("phone", user.phone)
+                    putExtra("website", user.website)
                 }
                 startActivity(intent)
             }
@@ -53,6 +56,10 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             viewModel.fetchUsers()
+        }
+
+        findViewById<Button>(R.id.retryButton).setOnClickListener {
+            viewModel.retryFetchUsers()
         }
     }
 }

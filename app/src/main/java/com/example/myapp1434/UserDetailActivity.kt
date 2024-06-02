@@ -21,13 +21,22 @@ class UserDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val nameTextView: TextView = findViewById(R.id.nameTextView)
+        val usernameTextView: TextView = findViewById(R.id.usernameTextView)
         val emailTextView: TextView = findViewById(R.id.emailTextView)
+        val phoneTextView: TextView = findViewById(R.id.phoneTextView)
+        val websiteTextView: TextView = findViewById(R.id.websiteTextView)
 
         val name = intent.getStringExtra("name")
+        val username = intent.getStringExtra("username")
         val email = intent.getStringExtra("email")
+        val phone = intent.getStringExtra("phone")
+        val website = intent.getStringExtra("website")
 
         nameTextView.text = name
+        usernameTextView.text = username
         emailTextView.text = email
+        phoneTextView.text = phone
+        websiteTextView.text = website
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

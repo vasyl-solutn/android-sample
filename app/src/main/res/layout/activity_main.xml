@@ -20,11 +20,21 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/button"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/button"
+        android:layout_below="@id/retryButton"
         android:padding="16dp"
         tools:listitem="@layout/item_user" />
 </RelativeLayout>

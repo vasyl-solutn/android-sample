@@ -23,10 +23,14 @@ class UserViewModel : ViewModel() {
                 val fetchedUsers = RetrofitClient.apiService.getUsers().take(10)
                 _users.postValue(fetchedUsers)
             } catch (e: Exception) {
-                _error.postValue("Failed to fetch users")
+                _error.postValue("Failed to fetch users. Please try again.")
             } finally {
                 _loading.postValue(false)
             }
         }
+    }
+
+    fun retryFetchUsers() {
+        fetchUsers()
     }
 }
