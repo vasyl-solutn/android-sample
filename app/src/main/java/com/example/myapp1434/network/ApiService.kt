@@ -1,3 +1,4 @@
+// File: app/src/main/java/com/example/myapp1434/network/ApiService.kt
 package com.example.myapp1434.network
 
 import com.example.myapp1434.model.User
@@ -7,4 +8,7 @@ import retrofit2.http.Path
 interface ApiService {
     @GET("users/{id}")
     suspend fun getUser(@Path("id") userId: Int): User
+
+    @GET("users")
+    suspend fun getUsers(): List<User>
 }

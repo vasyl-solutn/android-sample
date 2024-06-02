@@ -1,41 +1,15 @@
+<!-- File: app/src/main/res/layout/activity_main.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Data"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name: "
-        android:layout_below="@id/textView"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email: "
-        android:layout_below="@id/textViewName"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp" />
+    tools:context=".ui.MainActivity">
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fetch User"
-        android:layout_below="@id/textViewEmail"
+        android:text="Fetch Users"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
@@ -45,4 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button"
+        android:padding="16dp"
+        tools:listitem="@layout/item_user" />
 </RelativeLayout>

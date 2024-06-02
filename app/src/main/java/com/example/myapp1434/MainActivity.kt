@@ -1,14 +1,15 @@
 // File: app/src/main/java/com/example/myapp1434/ui/MainActivity.kt
-package com.example.myapp1434
+package com.example.myapp1434.ui
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapp1434.ui.UserViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapp1434.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,14 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textViewName: TextView = findViewById(R.id.textViewName)
-        val textViewEmail: TextView = findViewById(R.id.textViewEmail)
         val button: Button = findViewById(R.id.button)
         val progressBar: ProgressBar = findViewById(R.id.progressBar)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-        viewModel.user.observe(this) { user ->
-            textViewName.text = "Name: ${user.name}"
-            textViewEmail.text = "Email: ${user.email}"
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        viewModel.users.observe(this) { users ->
+            recyclerView.adapter = UserAdapter(users)
             progressBar.visibility = ProgressBar.GONE
         }
 
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            viewModel.fetchUser(7) // Fetch user with ID 1
+            viewModel.fetchUsers()
         }
     }
 }
