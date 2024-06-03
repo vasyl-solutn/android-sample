@@ -1,4 +1,3 @@
-// File: app/src/main/java/com/example/myapp1434/db/UserDao.kt
 package com.example.myapp1434.db
 
 import androidx.room.Dao
@@ -16,5 +15,5 @@ interface UserDao {
     suspend fun insertUsers(users: List<User>)
 
     @Query("DELETE FROM users")
-    suspend fun deleteAllUsers()
+    suspend fun deleteAllUsers(): Int
 }

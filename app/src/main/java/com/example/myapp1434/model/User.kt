@@ -1,4 +1,3 @@
-// File: app/src/main/java/com/example/myapp1434/model/User.kt
 package com.example.myapp1434.model
 
 import androidx.room.Entity
