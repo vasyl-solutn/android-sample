@@ -1,65 +1,49 @@
-// File: app/src/main/java/com/example/myapp1434/MainActivity.kt
 package com.example.myapp1434
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.myapp1434.databinding.ActivityMainBinding
+import com.example.myapp1434.db.AppDatabase
+import com.example.myapp1434.model.User
 import com.example.myapp1434.ui.UserAdapter
 import com.example.myapp1434.ui.UserViewModel
+import com.example.myapp1434.ui.UserViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: UserViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
+    private val database by lazy { AppDatabase.getDatabase(this) }
+    private val viewModel: UserViewModel by viewModels { UserViewModelFactory(database) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val button: Button = findViewById(R.id.button)
-        val progressBar: ProgressBar = findViewById(R.id.progressBar)
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val adapter = UserAdapter(emptyList())
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
         viewModel.users.observe(this) { users ->
-            recyclerView.adapter = UserAdapter(users) { user ->
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
-                    putExtra("name", user.name)
-                    putExtra("username", user.username)
-                    putExtra("email", user.email)
-                    putExtra("phone", user.phone)
-                    putExtra("website", user.website)
-                }
-                startActivity(intent)
-            }
-            progressBar.visibility = ProgressBar.GONE
+            adapter.users = users
+            adapter.notifyDataSetChanged()
         }
 
-        viewModel.error.observe(this) { error ->
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-            progressBar.visibility = ProgressBar.GONE
+        // Example usage: Insert users
+        binding.buttonFetchUsers.setOnClickListener {
+            // Fetch users from your API and insert into the database
+            val sampleUsers = listOf(
+                User(1, "John Doe", "johndoe", "john@example.com", "123-456-7890", "johndoe.com"),
+                // Add more users
+            )
+            viewModel.insertUsers(sampleUsers)
         }
 
-        viewModel.loading.observe(this) { isLoading ->
-            if (isLoading) {
-                progressBar.visibility = ProgressBar.VISIBLE
-            } else {
-                progressBar.visibility = ProgressBar.GONE
-            }
-        }
-
-        button.setOnClickListener {
-            viewModel.fetchUsers()
-        }
-
-        findViewById<Button>(R.id.retryButton).setOnClickListener {
-            viewModel.retryFetchUsers()
+        // Example usage: Delete all users
+        binding.buttonDeleteAllUsers.setOnClickListener {
+            viewModel.deleteAllUsers()
         }
     }
 }
