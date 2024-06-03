@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonFetchUsers.setOnClickListener {
             // Fetch users from your API and insert into the database
             val sampleUsers = listOf(
-                User(1, "John Doe", "johndoe", "john@example.com", "123-456-7890", "johndoe.com"),
+                User(1, getString(R.string.name), "johndoe", "john@example.com", "123-456-7890", "johndoe.com"),
                 // Add more users
             )
             viewModel.insertUsers(sampleUsers)

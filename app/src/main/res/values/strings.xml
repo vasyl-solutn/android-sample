@@ -5,4 +5,5 @@
     <string name="fetch_users">Fetch Users</string>
     <string name="email">Email:</string>
     <string name="name">Name:</string>
+    <string name="delete_all_users">Delete All Users</string>
 </resources>

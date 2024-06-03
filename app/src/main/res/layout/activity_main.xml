@@ -9,13 +9,13 @@
         android:id="@+id/buttonFetchUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fetch Users" />
+        android:text="@string/fetch_users" />
 
     <Button
         android:id="@+id/buttonDeleteAllUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete All Users"
+        android:text="@string/delete_all_users"
         android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
