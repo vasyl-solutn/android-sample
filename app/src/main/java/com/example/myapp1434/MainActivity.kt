@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         viewModel.users.observe(this) { users ->
-            adapter.users = users
-            adapter.notifyDataSetChanged()
+            adapter.updateUsers(users)
         }
 
         // Example usage: Insert users
