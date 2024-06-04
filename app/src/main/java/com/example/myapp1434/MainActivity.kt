@@ -1,48 +1,53 @@
 package com.example.myapp1434
 
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapp1434.databinding.ActivityMainBinding
-import com.example.myapp1434.db.AppDatabase
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.myapp1434.ui.UserDetailsScreen
+import com.example.myapp1434.ui.UserListScreen
+import com.example.myapp1434.ui.theme.MyApp1434Theme
 import com.example.myapp1434.model.User
-import com.example.myapp1434.ui.UserAdapter
-import com.example.myapp1434.ui.UserViewModel
-import com.example.myapp1434.ui.UserViewModelFactory
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-    private val database by lazy { AppDatabase.getDatabase(this) }
-    private val viewModel: UserViewModel by viewModels { UserViewModelFactory(database) }
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            MyApp1434Theme {
+                val navController = rememberNavController()
+                val users = remember {
+                    listOf(
+                        User(1, "John Doe", "johndoe", "john@example.com", "123-456-7890", "johnswebsite.com"),
+                        User(2, "Jane Smith", "janesmith", "jane@example.com", "098-765-4321", "janeswebsite.com")
+                    )
+                }
 
-        val adapter = UserAdapter(emptyList())
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
-
-        viewModel.users.observe(this) { users ->
-            adapter.updateUsers(users)
-        }
-
-        // Example usage: Insert users
-        binding.buttonFetchUsers.setOnClickListener {
-            // Fetch users from your API and insert into the database
-            val sampleUsers = listOf(
-                User(1, getString(R.string.name), "johndoe", "john@example.com", "123-456-7890", "johndoe.com"),
-                // Add more users
-            )
-            viewModel.insertUsers(sampleUsers)
-        }
-
-        // Example usage: Delete all users
-        binding.buttonDeleteAllUsers.setOnClickListener {
-            viewModel.deleteAllUsers()
+                NavHost(navController = navController, startDestination = "userList") {
+                    composable("userList") {
+                        UserListScreen(users = users) { user ->
+                            navController.navigate("userDetails/${user.name}/${user.email}")
+                        }
+                    }
+                    composable(
+                        route = "userDetails/{name}/{email}",
+                        arguments = listOf(
+                            navArgument("name") { type = NavType.StringType },
+                            navArgument("email") { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        val name = backStackEntry.arguments?.getString("name") ?: ""
+                        val email = backStackEntry.arguments?.getString("email") ?: ""
+                        val user = users.find { it.name == name && it.email == email }
+                        user?.let { UserDetailsScreen(user = it) }
+                    }
+                }
+            }
         }
     }
 }
