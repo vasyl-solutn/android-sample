@@ -10,12 +10,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapp1434.model.User
+import com.example.myapp1434.viewmodel.UserViewModel
 
 @Composable
-fun UserListScreen(users: List<User>, onUserClick: (User) -> Unit) {
+fun UserListScreen(onUserClick: (User) -> Unit) {
+    val userViewModel: UserViewModel = viewModel()
+    val users = userViewModel.users.collectAsState().value
+
     LazyColumn {
         items(users) { user ->
             UserItem(user, onUserClick)

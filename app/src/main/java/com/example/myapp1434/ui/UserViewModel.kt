@@ -1,14 +1,18 @@
-package com.example.myapp1434.ui
+package com.example.myapp1434.viewmodel
 
-import androidx.lifecycle.*
-import com.example.myapp1434.db.AppDatabase
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myapp1434.model.User
+import com.example.myapp1434.repository.UserRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class UserViewModel(private val database: AppDatabase) : ViewModel() {
+class UserViewModel : ViewModel() {
+    private val userRepository = UserRepository()
 
-    private val _users = MutableLiveData<List<User>>()
-    val users: LiveData<List<User>> get() = _users
+    private val _users = MutableStateFlow<List<User>>(emptyList())
+    val users: StateFlow<List<User>> = _users
 
     init {
         fetchUsers()
@@ -16,31 +20,12 @@ class UserViewModel(private val database: AppDatabase) : ViewModel() {
 
     private fun fetchUsers() {
         viewModelScope.launch {
-            _users.value = database.userDao().getAllUsers()
+            try {
+                val userList = userRepository.getUsers()
+                _users.value = userList
+            } catch (e: Exception) {
+                // Handle the exception
+            }
         }
-    }
-
-    fun insertUsers(users: List<User>) {
-        viewModelScope.launch {
-            database.userDao().insertUsers(users)
-            fetchUsers() // Refresh the list after insertion
-        }
-    }
-
-    fun deleteAllUsers() {
-        viewModelScope.launch {
-            database.userDao().deleteAllUsers()
-            fetchUsers() // Refresh the list after deletion
-        }
-    }
-}
-
-class UserViewModelFactory(private val database: AppDatabase) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
-            return UserViewModel(database) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
