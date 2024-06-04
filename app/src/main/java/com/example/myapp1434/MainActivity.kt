@@ -20,34 +20,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp1434Theme {
-                val navController = rememberNavController()
-                val users = remember {
-                    listOf(
-                        User(1, "John Doe", "johndoe", "john@example.com", "123-456-7890", "johnswebsite.com"),
-                        User(2, "Jane Smith", "janesmith", "jane@example.com", "098-765-4321", "janeswebsite.com")
-                    )
-                }
-
-                NavHost(navController = navController, startDestination = "userList") {
-                    composable("userList") {
-                        UserListScreen(users = users) { user ->
-                            navController.navigate("userDetails/${user.name}/${user.email}")
-                        }
-                    }
-                    composable(
-                        route = "userDetails/{name}/{email}",
-                        arguments = listOf(
-                            navArgument("name") { type = NavType.StringType },
-                            navArgument("email") { type = NavType.StringType }
-                        )
-                    ) { backStackEntry ->
-                        val name = backStackEntry.arguments?.getString("name") ?: ""
-                        val email = backStackEntry.arguments?.getString("email") ?: ""
-                        val user = users.find { it.name == name && it.email == email }
-                        user?.let { UserDetailsScreen(user = it) }
-                    }
-                }
+                MyApp()
             }
+        }
+    }
+}
+
+@Composable
+fun MyApp() {
+    val navController = rememberNavController()
+    val users = remember {
+        listOf(
+            User(1, "John Doe", "johndoe", "john@example.com", "123-456-7890", "johnswebsite.com"),
+            User(2, "Jane Smith", "janesmith", "jane@example.com", "098-765-4321", "janeswebsite.com")
+        )
+    }
+
+    NavHost(navController = navController, startDestination = "userList") {
+        composable("userList") {
+            UserListScreen(users = users) { user ->
+                navController.navigate("userDetails/${user.name}/${user.email}")
+            }
+        }
+        composable(
+            route = "userDetails/{name}/{email}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType },
+                navArgument("email") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val email = backStackEntry.arguments?.getString("email") ?: ""
+            val user = users.find { it.name == name && it.email == email }
+            user?.let { UserDetailsScreen(user = it) }
         }
     }
 }
